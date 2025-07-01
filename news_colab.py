@@ -6,6 +6,14 @@ from datetime import datetime, timedelta
 from newspaper import Article
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, pipeline
 
+from dotenv import load_dotenv
+import os
+
+load_dotenv()  # .env 파일 읽기
+
+user_id = os.getenv("X-Naver-Client-Id")
+password = os.getenv("X-Naver-Client-Secret")
+
 # 1. 날짜 계산
 today = datetime.now()
 week_ago = today - timedelta(days=7)
@@ -22,8 +30,8 @@ summarizer = pipeline("summarization", model=model, tokenizer=tokenizer)
 def fetch_news(query="빈집"):
     api_url = "https://openapi.naver.com/v1/search/news.json"
     headers = {
-        "X-Naver-Client-Id": "gmnTi_XtzcBltXkHUm_8",
-        "X-Naver-Client-Secret": "86TNo8Sk0M"
+        "X-Naver-Client-Id": user_id,
+        "X-Naver-Client-Secret": password
     }
     params = {
         "query": query,
