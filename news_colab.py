@@ -113,6 +113,7 @@ def create_post(articles):
             html += f"<h5><a href='{link}' target='_blank'>{title}</a></h5>\n"
             html += f"<p><strong>요약:</strong> {summary}</p>\n"
             html += "</article><hr>\n"
+
     html += "<footer>자동 생성된 블로그 포스트입니다.</footer>\n"
     html += "</body></html>"
     return html
