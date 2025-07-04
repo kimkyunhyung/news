@@ -27,5 +27,6 @@ print(f"Relevance between '{keyword}' and '{sentence}': {relevance}")
 
 sentence = "2루 베이스는 빈집과 같은 상태여서 쉽게 도루할 수 있었다."
 relevance = assess_relevance(keyword, sentence)
-print(f"Relevance between '{keyword}' and '{sentence}': {relevance}")
+#print(f"Relevance between '{keyword}' and '{sentence}': {relevance}")
+print(relevance)
 
