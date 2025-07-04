@@ -9,7 +9,7 @@ from lib_keyword import assess_relevance
 logging.basicConfig(level=logging.INFO, format='[%(levelname)s] %(message)s')
 load_dotenv()
 
-# 1. Load environment variables for Naver Client ID and Secret
+# 1. Load environment variables for Naver News API
 user_id = os.getenv("X-Naver-Client-Id")
 password = os.getenv("X-Naver-Client-Secret")
 
@@ -27,7 +27,6 @@ def summarize_text(text):
     if not text or len(text.strip()) < 64 :
         return "요약할 수 있는 내용이 부족합니다."
     try:
-        #return summarizer(text[:1000], max_length=100, min_length=30, do_sample=False)[0]['summary_text']
         return summarizer(text[:2048], max_length=128, min_length=30, do_sample=False)[0]['summary_text']
     except Exception as e:
         logging.warning(f"요약 실패: {e}")
@@ -44,8 +43,8 @@ def create_post(articles):
     </style></head><body>"""
     html += f"<h1>📌 빈집 관련 뉴스 요약 ({from_date.strftime('%Y.%m.%d')}~{today.strftime('%Y.%m.%d')})</h1>\n"
 
-    keyword = "미래에 문제가 될수 있는 빈집(vacant house)"
-    
+    keyword = "빈집(시골이나 도시에 방치되어 사회적으로 문제가 될 수 있는 빈집, slum, ghetto, vacant house)"
+
     if not articles:
         html += "<p>지난 1주일간 ‘빈집’ 관련 주요 보도는 아직 없습니다.</p>\n"
     else:
@@ -54,7 +53,7 @@ def create_post(articles):
             print(link)
 
         # 7.1 링크 필터링 - 특이케이스 제외, 경인일보 제외2025.06  
-            if "n.news" in link or "news.ifm.kr" in link:
+            if "n.news" in link or "news.ifm.kr" in link or "www.dnews.co.kr" in link:
                 print(link + ":모바일 또는 프록시링크로 본문이 숨겨져 있음.(n.new로 시작 또는 news.ifm.kr)-SKIP")
                 continue
             
@@ -86,4 +85,3 @@ if __name__ == "__main__":
     with open("result.html", "w", encoding="utf-8") as f:
         f.write(post_html)
     logging.info("Finish")
-
