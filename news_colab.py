@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, pipeline
 from dotenv import load_dotenv
 from lib_news import fetch_news, extract_article_text
-from lib_keyword import assess_relevance
+from lib_keyword import assess_relevance, remove_duplicate_new
 
 logging.basicConfig(level=logging.INFO, format='[%(levelname)s] %(message)s')
 load_dotenv()
@@ -76,6 +76,8 @@ def create_post(articles):
     html += "</body></html>"
     return html
 
+
+
 # main.
 if __name__ == "__main__":
     logging.info("Data Collecting ...")
@@ -84,4 +86,11 @@ if __name__ == "__main__":
     post_html = create_post(news_items)
     with open("result.html", "w", encoding="utf-8") as f:
         f.write(post_html)
-    logging.info("Finish")
+    logging.info("Finish : result.html")  
+
+    post_nodup = remove_duplicate_new(post_html)
+    if post_nodup !=  ""  :
+        with open("result_nodup.html", "w", encoding="utf-8") as f:
+            f.write(post_nodup)
+    
+    logging.info("Finis : result_nodup.h")

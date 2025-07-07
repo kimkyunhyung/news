@@ -33,7 +33,7 @@ def fetch_news(query, user_id, password, from_date):
 
 # 5. 기사 본문 추출
 def extract_article_text(url):
-    
+
     try:
         article = Article(url, language='ko')
         article.download()
@@ -52,13 +52,3 @@ def extract_article_text(url):
         logging.warning(f"본문 추출 실패 ({url}): {e}")
         return ""
 
-# 6. 기사 요약 - 파라미터 조정 2025.06
-def summarize_text(text):
-    if not text or len(text.strip()) < 64 :
-        return "요약할 수 있는 내용이 부족합니다."
-    try:
-        #return summarizer(text[:1000], max_length=100, min_length=30, do_sample=False)[0]['summary_text']
-        return summarizer(text[:2048], max_length=128, min_length=30, do_sample=False)[0]['summary_text']
-    except Exception as e:
-        logging.warning(f"요약 실패: {e}")
-        return "요약 실패"
