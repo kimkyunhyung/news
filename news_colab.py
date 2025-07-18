@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, pipeline
 from dotenv import load_dotenv
 from lib_news import fetch_news, extract_article_text
-from lib_keyword import assess_relevance, remove_duplicate_new
+from lib_llm import assess_relevance, remove_duplicate_new
 
 logging.basicConfig(level=logging.INFO, format='[%(levelname)s] %(message)s')
 load_dotenv()
@@ -88,6 +88,8 @@ if __name__ == "__main__":
         f.write(post_html)
     logging.info("Finish : result.html")  
 
+
+# 8. 중복뉴스는 삭제한다.
     post_nodup = remove_duplicate_new(post_html)
     if post_nodup !=  ""  :
         with open("result_nodup.html", "w", encoding="utf-8") as f:
