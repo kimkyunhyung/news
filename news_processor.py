@@ -60,7 +60,7 @@ class NewsProcessor:
         
         # 기본 키워드 설정
         if not keyword:
-            keyword = f"{query}(시골이나 도시에 방치되어 사회적으로 문제가 될 수 있는 {query}, slum, ghetto, vacant house)"
+            keyword = query
         
         self.logger.info(f"뉴스 수집 시작: {query}")
         
@@ -81,7 +81,6 @@ class NewsProcessor:
         else:
             html += self._process_articles(articles, keyword)
         
-        html += self._get_html_footer()
         return html
     
     def _get_html_header(self, query: str) -> str:
@@ -139,23 +138,12 @@ class NewsProcessor:
 <p><strong>연관성:</strong> {relevance}%</p>
 <p><strong>요약:</strong> {summary}</p>
 </article>
-<hr>
-"""
+<hr>"""
             processed_count += 1
         
-        # 통계 정보 추가
-        stats_html = f"""<div class='stats'>
-<strong>처리 통계:</strong> 전체 {len(articles)}개 기사 중 {processed_count}개 처리, {skipped_count}개 스킵
-</div>
-"""
-        
-        return stats_html + html
-    
-    def _get_html_footer(self) -> str:
-        """HTML 푸터 생성"""
-        return """<footer>자동 생성된 뉴스 요약입니다.</footer>
-</body>
-</html>"""
+        self.logger.info(f"{len(articles)}개 기사 중 {processed_count}개 처리, {skipped_count}개 스킵")
+        html += "</body></html>"
+        return html
     
     def save_html(self, html_content: str, filename: str = None) -> str:
         """HTML 파일 저장"""
