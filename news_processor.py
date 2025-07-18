@@ -135,7 +135,6 @@ class NewsProcessor:
             # HTML 추가
             html += f"""<article>
 <h5><a href='{link}' target='_blank'>{title}</a></h5>
-<p><strong>연관성:</strong> {relevance}%</p>
 <p><strong>요약:</strong> {summary}</p>
 </article>
 <hr>"""
